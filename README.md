@@ -1,10 +1,12 @@
 # My Zsh Profile & Dotfiles 🚀
 
-A quick, one-click automated setup for my personal Zsh environment. This script transforms a fresh Ubuntu/Debian terminal into a fully configured, highly productive workspace in seconds.
+⚠️ **Compatibility Note: This automated setup is strictly designed for Ubuntu/Debian-based distributions.**
+
+A quick, one-click automated setup for my personal Zsh environment. This script transforms a fresh Ubuntu or Debian terminal into a fully configured, highly productive workspace in seconds.
 
 ## ✨ Features
 
-- **Core Essentials:** Automatically installs Zsh, Git, Curl, Neofetch, and JetBrains Mono Nerd Fonts.
+- **Core Essentials:** Automatically installs Zsh, Git, Curl, Neofetch, and JetBrains Mono Nerd Fonts using `apt`.
 - **Framework & Theme:** Sets up Oh My Zsh and the blazing-fast Powerlevel10k theme.
 - **Smart Plugins:**
   - `zsh-autosuggestions`: Fast, unobtrusive autocomplete based on history.
@@ -14,7 +16,7 @@ A quick, one-click automated setup for my personal Zsh environment. This script 
 - **Instant Dotfiles:** Automatically fetches and applies my custom `.zshrc` and `.p10k.zsh` configurations.
 - **Auto-Launch:** Configures `.bashrc` to start Zsh automatically upon opening the terminal.
 
-## 🚀 One-Click Installation
+## 🚀 One-Click Installation (Ubuntu/Debian Only)
 
 To set up this environment on a new machine, simply run the following command in your terminal:
 
