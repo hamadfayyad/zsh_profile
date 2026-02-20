@@ -21,5 +21,5 @@ A quick, one-click automated setup for my personal Zsh environment. This script 
 To set up this environment on a new machine, simply run the following command in your terminal:
 
 ```bash
-bash -c "$(curl -fsSL [https://raw.githubusercontent.com/hamadfayyad/zsh_profile/main/install.sh](https://raw.githubusercontent.com/hamadfayyad/zsh_profile/main/install.sh))"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/hamadfayyad/zsh_profile/main/install.sh)"
 ```
