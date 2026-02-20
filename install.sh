@@ -13,7 +13,32 @@ else
     echo "Zsh is already the default shell."
 fi
 
-# 3. Install Oh My Zsh
+# 3. Handle existing configurations (.zshrc, .p10k.zsh, .oh-my-zsh)
+if [ -d "$HOME/.oh-my-zsh" ] || [ -f "$HOME/.zshrc" ] || [ -f "$HOME/.p10k.zsh" ]; then
+    echo "=> Found existing Zsh configurations in your home directory."
+    read -p "Do you want to (b)ackup them with .bak or (d)elete them? [b/d]: " user_choice
+    
+    if [[ "$user_choice" =~ ^[Bb]$ ]]; then
+        echo "=> Backing up to .bak..."
+        # Remove old backups if they exist to prevent errors
+        rm -rf "$HOME/.oh-my-zsh.bak" "$HOME/.zshrc.bak" "$HOME/.p10k.zsh.bak"
+        
+        [ -d "$HOME/.oh-my-zsh" ] && mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh.bak"
+        [ -f "$HOME/.zshrc" ]     && mv "$HOME/.zshrc" "$HOME/.zshrc.bak"
+        [ -f "$HOME/.p10k.zsh" ]  && mv "$HOME/.p10k.zsh" "$HOME/.p10k.zsh.bak"
+    elif [[ "$user_choice" =~ ^[Dd]$ ]]; then
+        echo "=> Deleting existing configurations..."
+        rm -rf "$HOME/.oh-my-zsh" "$HOME/.zshrc" "$HOME/.p10k.zsh"
+    else
+        echo "=> Invalid input. Defaulting to backup..."
+        rm -rf "$HOME/.oh-my-zsh.bak" "$HOME/.zshrc.bak" "$HOME/.p10k.zsh.bak"
+        [ -d "$HOME/.oh-my-zsh" ] && mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh.bak"
+        [ -f "$HOME/.zshrc" ]     && mv "$HOME/.zshrc" "$HOME/.zshrc.bak"
+        [ -f "$HOME/.p10k.zsh" ]  && mv "$HOME/.p10k.zsh" "$HOME/.p10k.zsh.bak"
+    fi
+fi
+
+# 4. Install Oh My Zsh
 echo "=> Installing Oh My Zsh..."
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -21,7 +46,7 @@ else
     echo "Oh My Zsh is already installed. Skipping installation."
 fi
 
-# 4. Install Plugins & Theme
+# 5. Install Plugins & Theme
 echo "=> Installing Plugins & Theme..."
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
@@ -34,7 +59,7 @@ git clone https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plug
 # Theme
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k 2>/dev/null || echo "powerlevel10k already exists"
 
-# 5. Install fzf (Fuzzy Finder for history)
+# 6. Install fzf (Fuzzy Finder for history)
 echo "=> Installing fzf..."
 if [ ! -d "$HOME/.fzf" ]; then
     git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
@@ -43,12 +68,12 @@ else
     echo "fzf is already installed."
 fi
 
-# 6. Fetch personal configurations from GitHub
+# 7. Fetch personal configurations from GitHub
 echo "=> Fetching your dotfiles from GitHub (hamadfayyad/zsh_profile)..."
 curl -fsSL https://raw.githubusercontent.com/hamadfayyad/zsh_profile/main/.zshrc -o ~/.zshrc
 curl -fsSL https://raw.githubusercontent.com/hamadfayyad/zsh_profile/main/.p10k.zsh -o ~/.p10k.zsh
 
-# 7. Add fallback to .bashrc
+# 8. Add fallback to .bashrc
 echo "=> Configuring .bashrc to launch Zsh automatically..."
 if [ -f "$HOME/.bashrc" ]; then
     if ! grep -q "exec zsh" "$HOME/.bashrc"; then
